@@ -1,13 +1,13 @@
 import React from 'react';
-import {StyleSheet, SafeAreaView} from 'react-native';
-import {StatusBar} from 'expo-status-bar';
+import {StyleSheet, SafeAreaView, StatusBar, Platform} from 'react-native';
+import {StatusBar as ExpoStatusBar} from 'expo-status-bar';
 import {List} from './components/List';
 
 const App = () => {
   return (
     <SafeAreaView style={[styles.container, styles.AndroidSafeArea]}>
       <List />
-      <StatusBar style="auto" />
+      <ExpoStatusBar style="auto" />
     </SafeAreaView>
   );
 };
@@ -17,8 +17,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   AndroidSafeArea: {
-    paddingTop: 25,
-    // paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
 });
 
