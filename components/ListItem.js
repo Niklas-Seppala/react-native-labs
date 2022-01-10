@@ -3,14 +3,15 @@ import PropTypes from 'prop-types';
 import {TouchableOpacity, View, Image, Text, StyleSheet} from 'react-native';
 
 /**
- * @param {{item:{title: string, thumbnails: {w160: string}, desc: string}}} param0
+ * @param {{item:{title: string, filename: string, desc: string}}} param0
  * @return {object} List item component.
  */
 export const ListItem = ({item}) => {
+  console.log(item);
   return (
     <TouchableOpacity style={styles.container}>
       <View style={styles.left}>
-        <Image style={styles.thumb} source={{uri: item.thumbnails.w160}} />
+        <Image style={styles.thumb} source={{uri: item.filename}} />
       </View>
 
       <View style={styles.right}>
@@ -25,9 +26,7 @@ ListItem.propTypes = {
   item: PropTypes.shape({
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-    thumbnails: PropTypes.shape({
-      w160: PropTypes.string.isRequired,
-    }),
+    filename: PropTypes.string,
   }),
 };
 
