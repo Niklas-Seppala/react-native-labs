@@ -12,6 +12,7 @@ export const ListItem = ({item}) => {
       <View style={styles.left}>
         <Image style={styles.thumb} source={{uri: item.thumbnails.w160}} />
       </View>
+
       <View style={styles.right}>
         <Text style={styles.header}>{item.title}</Text>
         <Text style={styles.desc}>{item.description}</Text>
@@ -40,11 +41,9 @@ const styles = StyleSheet.create({
   },
   right: {
     marginLeft: 16,
-    flexDirection: 'column',
     flex: 1,
   },
   left: {
-    flexDirection: 'column',
     flex: 1,
   },
   header: {
