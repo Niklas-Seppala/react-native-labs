@@ -25,7 +25,6 @@ export const Counter = ({start}) => {
   );
 };
 
-
 const style = StyleSheet.create({
   counter: {
     flex: 1,
