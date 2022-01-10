@@ -1,27 +1,25 @@
-import {StatusBar} from 'expo-status-bar';
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
-import {Counter} from './components/counter';
-import {Header} from './components/header';
+import {StyleSheet, SafeAreaView} from 'react-native';
+import {StatusBar} from 'expo-status-bar';
+import {List} from './components/List';
 
-/**
- * Root Application
- * @return {App} App
- */
-export default function App() {
+const App = () => {
   return (
-    <View style={styles.container}>
-      <Header title={'Cool Counter App'} />
-      <Counter start={0} />
+    <SafeAreaView style={[styles.container, styles.AndroidSafeArea]}>
+      <List />
       <StatusBar style="auto" />
-    </View>
+    </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
-    marginTop: 25,
+  },
+  AndroidSafeArea: {
+    paddingTop: 25,
+    // paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
 });
+
+export default App;

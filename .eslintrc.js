@@ -1,23 +1,48 @@
+// eslint-disable-next-line no-undef
 module.exports = {
-  'env': {
-    'browser': true,
-    'es2021': true,
+  parser: '@babel/eslint-parser',
+  env: {
+    browser: true,
+    es2020: true,
+    'react-native/react-native': true,
   },
-  'extends': [
-    'plugin:react/recommended',
+  extends: [
     'google',
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:prettier/recommended',
   ],
-  'parserOptions': {
-    'ecmaFeatures': {
-      'jsx': true,
-    },
-    'ecmaVersion': 13,
-    'sourceType': 'module',
+  globals: {
+    Atomics: 'readonly',
+    SharedArrayBuffer: 'readonly',
   },
-  'plugins': [
-    'react',
-  ],
-  'rules': {
-    'react/prop-types': 'off',
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+    ecmaVersion: 13,
+    sourceType: 'module',
+  },
+  plugins: ['react', 'react-native', 'prettier'],
+  rules: {
+    'react/jsx-uses-react': 'error',
+    'react/jsx-uses-vars': 'error',
+    'no-console': 0,
+    'require-jsdoc': 0,
+    'prettier/prettier': 'error',
+  },
+  settings: {
+    react: {
+      createClass: 'createReactClass',
+      pragma: 'React',
+      version: 'detect',
+      flowVersion: '0.53',
+    },
+    propWrapperFunctions: [
+      'forbidExtraProps',
+      {property: 'freeze', object: 'Object'},
+      {property: 'myFavoriteWrapper'},
+    ],
+    linkComponents: ['Hyperlink', {name: 'Link', linkAttribute: 'to'}],
   },
 };
