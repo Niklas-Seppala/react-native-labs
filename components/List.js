@@ -5,8 +5,15 @@ import {ListItem} from './ListItem';
 const loadMedia = async () => {
   const url =
     'https://raw.githubusercontent.com/mattpe/wbma/master/docs/assets/test.json';
-  const response = await fetch(url);
-  return await response.json();
+  try {
+    const response = await fetch(url);
+    const media = await response.json();
+    console.log(media);
+    return media;
+  } catch (err) {
+    console.error(err);
+    return [];
+  }
 };
 
 export const List = () => {
