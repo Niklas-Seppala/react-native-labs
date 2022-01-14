@@ -1,24 +1,15 @@
 import React from 'react';
-import {StyleSheet, SafeAreaView, StatusBar, Platform} from 'react-native';
 import {StatusBar as ExpoStatusBar} from 'expo-status-bar';
-import {List} from './components/List';
+import {Home} from './views/Home';
+import {View} from 'react-native';
 
 const App = () => {
   return (
-    <SafeAreaView style={[styles.container, styles.AndroidSafeArea]}>
-      <List />
+    <View>
+      <Home></Home>
       <ExpoStatusBar style="auto" />
-    </SafeAreaView>
+    </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fff',
-  },
-  AndroidSafeArea: {
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-  },
-});
 
 export default App;

@@ -13,7 +13,7 @@ export const ListItem = ({item}) => {
       <View style={styles.left}>
         <Image
           style={styles.thumb}
-          source={{uri: api.ROUTES.upload(item.thumbnails.w320)}}
+          source={{uri: api.ROUTES.upload(item.thumbnails?.w320)}}
         />
       </View>
 
