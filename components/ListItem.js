@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {TouchableOpacity, View, Image, Text, StyleSheet} from 'react-native';
+import {image, container, text} from '../styles/styles';
 
 /**
  * @param {{item:{title: string, thumbnails: {w160: string}, desc: string}}} param0
@@ -8,14 +9,14 @@ import {TouchableOpacity, View, Image, Text, StyleSheet} from 'react-native';
  */
 export const ListItem = ({item}) => {
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={container.container}>
       <View style={styles.left}>
-        <Image style={styles.thumb} source={{uri: item.thumbnails.w160}} />
+        <Image style={image.thumb} source={{uri: item.thumbnails.w160}} />
       </View>
 
       <View style={styles.right}>
-        <Text style={styles.header}>{item.title}</Text>
-        <Text style={styles.desc}>{item.description}</Text>
+        <Text style={[text.light, text.header]}>{item.title}</Text>
+        <Text style={[styles.desc, text.dimmed]}>{item.description}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -32,13 +33,6 @@ ListItem.propTypes = {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#d9dde0',
-    marginBottom: 16,
-    padding: 12,
-    flexDirection: 'row',
-    flex: 1,
-  },
   right: {
     marginLeft: 16,
     flex: 1,
@@ -46,13 +40,7 @@ const styles = StyleSheet.create({
   left: {
     flex: 1,
   },
-  header: {
-    fontSize: 22,
-  },
   desc: {
-    fontSize: 14,
-  },
-  thumb: {
-    flex: 1,
+    fontSize: 12,
   },
 });
