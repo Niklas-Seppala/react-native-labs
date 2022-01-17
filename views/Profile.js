@@ -1,11 +1,23 @@
-import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import React, {useContext} from 'react';
+import {StyleSheet, View, Button} from 'react-native';
+import {MainContext} from '../contexts/MainContex';
 import {common} from '../style/common';
+import PropTypes from 'prop-types';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const Profile = () => {
+export const Profile = ({navigation}) => {
+  const [isLoggedIn, setIsLoggedIn] = useContext(MainContext);
+  console.log('profile isLoggedIn', isLoggedIn);
+
+  const logout = async () => {
+    setIsLoggedIn(false);
+    await AsyncStorage.clear();
+    navigation.navigate('Login');
+  };
+
   return (
     <View style={[common.container, styles.container]}>
-      <Text>PROFILE</Text>
+      <Button onPress={logout} title="Log Out"></Button>
     </View>
   );
 };
@@ -16,3 +28,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
+Profile.propTypes = {
+  navigation: PropTypes.object,
+};
