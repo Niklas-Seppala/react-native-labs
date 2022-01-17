@@ -2,14 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {TouchableOpacity, View, Image, Text, StyleSheet} from 'react-native';
 import api from '../utils/api';
+import {common} from '../style/common';
 
 /**
  * @param {{item:{title: string, filename: string, desc: string}}} param0
  * @return {object} List item component.
  */
-export const ListItem = ({item}) => {
+export const ListItem = ({item, navigation}) => {
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity
+      onPress={() => navigation.navigate('Single', {item: item})}
+      style={styles.container}
+    >
       <View style={styles.left}>
         <Image
           style={styles.thumb}
@@ -18,14 +22,17 @@ export const ListItem = ({item}) => {
       </View>
 
       <View style={styles.right}>
-        <Text style={styles.header}>{item.title}</Text>
-        <Text style={styles.desc}>{item.description}</Text>
+        <Text style={common.header_1}>{item.title}</Text>
+        <Text style={common.text}>{item.description}</Text>
       </View>
     </TouchableOpacity>
   );
 };
 
 ListItem.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func,
+  }),
   item: PropTypes.shape({
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
@@ -53,14 +60,7 @@ const styles = StyleSheet.create({
   left: {
     flex: 1,
   },
-  header: {
-    fontSize: 22,
-  },
-  desc: {
-    fontSize: 14,
-  },
   thumb: {
-    flex: 1,
     height: 130,
   },
 });
