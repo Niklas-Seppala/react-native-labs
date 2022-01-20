@@ -36,30 +36,30 @@ const TabScreen = () => {
   );
 };
 
-const startStack = (cond) => {
-  return cond ? (
-    <>
-      <Stack.Screen
-        name="Tabs"
-        component={TabScreen}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen name="Single" component={Single} />
-    </>
-  ) : (
-    <Stack.Screen name="Login" component={Login}></Stack.Screen>
-  );
-};
-
 const StackScreen = () => {
-  const [isLoggedIn] = useContext(MainContext);
-  return <Stack.Navigator>{startStack(isLoggedIn)}</Stack.Navigator>;
+  const {isLoggedIn} = useContext(MainContext);
+  return (
+    <Stack.Navigator>
+      {isLoggedIn ? (
+        <>
+          <Stack.Screen
+            name="Tabs"
+            component={TabScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen name="Single" component={Single} />
+        </>
+      ) : (
+        <Stack.Screen name="Login" component={Login}></Stack.Screen>
+      )}
+    </Stack.Navigator>
+  );
 };
 
 const Navigator = () => {
   return (
     <NavigationContainer>
-      <StackScreen></StackScreen>
+      <StackScreen />
     </NavigationContainer>
   );
 };

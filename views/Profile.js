@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const Profile = ({navigation}) => {
-  const [isLoggedIn, setIsLoggedIn] = useContext(MainContext);
+  const {setIsLoggedIn} = useContext(MainContext);
 
   const logout = async () => {
     setIsLoggedIn(false);

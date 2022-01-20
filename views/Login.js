@@ -1,14 +1,15 @@
 import React, {useContext, useEffect} from 'react';
-import {View, StyleSheet, Button} from 'react-native';
+import {View, StyleSheet, Text} from 'react-native';
 import PropTypes from 'prop-types';
 import {MainContext} from '../contexts/MainContex';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {common} from '../style/common';
-import { useLogin, useUser } from '../hooks/ApiHooks';
+import { useUser } from '../hooks/ApiHooks';
+import { LoginForm } from '../components/LoginForm';
+
 
 const Login = ({navigation}) => {
-  const [isLoggedIn, setIsLoggedIn] = useContext(MainContext);
-  const {postLogin} = useLogin();
+  const {setIsLoggedIn, isLoggedIn} = useContext(MainContext);
   const {tokenAuth} = useUser();
 
   const checkToken = async () => {
@@ -25,27 +26,14 @@ const Login = ({navigation}) => {
     checkToken();
   }, []);
 
-  const logIn = async () => {
-    const data = {}
-
-    try {
-      const loginResp = await postLogin(data);
-      if (loginResp) {
-        await AsyncStorage.setItem('userToken', loginResp.token);
-        setIsLoggedIn(true);
-      }
-    } catch (error) {
-      console.error(error)      
-    }
-    
-    if (isLoggedIn) {
-      navigation.navigate('Tabs');
-    }
-  };
+  if (isLoggedIn) {
+    navigation.navigate('Tabs');
+  }
 
   return (
     <View style={[common.container, styles.container]}>
-      <Button title="Sign in!" onPress={logIn} />
+      <Text style={styles.header}>Login</Text>
+      <LoginForm />
     </View>
   );
 };
@@ -59,6 +47,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  header: {
+    fontSize: 26
+  }
 });
 
 export default Login;
