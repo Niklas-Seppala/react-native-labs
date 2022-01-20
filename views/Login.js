@@ -4,16 +4,20 @@ import PropTypes from 'prop-types';
 import {MainContext} from '../contexts/MainContex';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {common} from '../style/common';
-import { useLogin } from '../hooks/ApiHooks';
+import { useLogin, useUser } from '../hooks/ApiHooks';
 
 const Login = ({navigation}) => {
   const [isLoggedIn, setIsLoggedIn] = useContext(MainContext);
   const {postLogin} = useLogin();
+  const {tokenAuth} = useUser();
 
   const checkToken = async () => {
-    const userToken = await AsyncStorage.getItem('userToken');
-    if (userToken === 'abc') {
-      setIsLoggedIn(true);
+    const token = await AsyncStorage.getItem('userToken');
+    try {
+      const user = await tokenAuth(token);
+      user && setIsLoggedIn(true);
+    } catch (err) {
+      console.error(err)
     }
   };
 
@@ -24,11 +28,14 @@ const Login = ({navigation}) => {
   const logIn = async () => {
     const data = {}
 
-    const loginResp = await postLogin(data);
-    if (loginResp) {
-      console.log(loginResp);
-      await AsyncStorage.setItem('userToken', loginResp.token);
-      setIsLoggedIn(true);
+    try {
+      const loginResp = await postLogin(data);
+      if (loginResp) {
+        await AsyncStorage.setItem('userToken', loginResp.token);
+        setIsLoggedIn(true);
+      }
+    } catch (error) {
+      console.error(error)      
     }
     
     if (isLoggedIn) {

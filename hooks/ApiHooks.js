@@ -25,6 +25,28 @@ export const useMedia = () => {
   return {media};
 };
 
+export const useUser = () => {
+  const tokenAuth = async (token) => {
+    try {
+      const options = {
+        method: 'GET',
+        headers: {'x-access-token': token},
+      };
+      const resp = await fetch(api.ROUTES.tokenAuth, options);
+      const user = await resp.json();
+
+      if (resp.ok) {
+        return user;
+      } else {
+        throw new Error(user.message);
+      }
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  };
+  return {tokenAuth};
+}
+
 export const useLogin = () => {
   const postLogin = async (userCredentials) => {
     const options = {
@@ -43,7 +65,7 @@ export const useLogin = () => {
         throw new Error(json.error ? `${json.message}: ${json.error}` : json.message);
       }
     } catch (err) {
-      console.err(err)
+      throw new Error(error.message);
     }
   };
   
