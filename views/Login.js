@@ -4,9 +4,12 @@ import PropTypes from 'prop-types';
 import {MainContext} from '../contexts/MainContex';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {common} from '../style/common';
+import { useLogin } from '../hooks/ApiHooks';
 
 const Login = ({navigation}) => {
   const [isLoggedIn, setIsLoggedIn] = useContext(MainContext);
+  const {postLogin} = useLogin();
+
   const checkToken = async () => {
     const userToken = await AsyncStorage.getItem('userToken');
     if (userToken === 'abc') {
@@ -19,8 +22,15 @@ const Login = ({navigation}) => {
   }, []);
 
   const logIn = async () => {
-    setIsLoggedIn(true);
-    await AsyncStorage.setItem('userToken', 'abc');
+    const data = {}
+
+    const loginResp = await postLogin(data);
+    if (loginResp) {
+      console.log(loginResp);
+      await AsyncStorage.setItem('userToken', loginResp.token);
+      setIsLoggedIn(true);
+    }
+    
     if (isLoggedIn) {
       navigation.navigate('Tabs');
     }

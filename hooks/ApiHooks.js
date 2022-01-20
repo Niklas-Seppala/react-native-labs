@@ -24,3 +24,28 @@ export const useMedia = () => {
   useEffect(async () => setMedia(await loadMedia()), []);
   return {media};
 };
+
+export const useLogin = () => {
+  const postLogin = async (userCredentials) => {
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(userCredentials)
+    };
+    try {
+      const resp = await fetch(api.ROUTES.login, options);
+      const json = await resp.json();
+      if (resp.ok) {
+        return json;
+      } else {
+        throw new Error(json.error ? `${json.message}: ${json.error}` : json.message);
+      }
+    } catch (err) {
+      console.err(err)
+    }
+  };
+  
+  return {postLogin};
+};

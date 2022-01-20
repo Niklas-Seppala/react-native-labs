@@ -3,6 +3,7 @@ const ROUTES = {
   all: `${BASE_URL}/media`,
   single: (id) => `${BASE_URL}/media/${id}`,
   upload: (file) => `${BASE_URL}/uploads/${file}`,
+  login: `${BASE_URL}/login`
 };
 
 export default {
