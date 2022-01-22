@@ -1,24 +1,51 @@
 import {useEffect, useState} from 'react';
 import api from '../utils/api';
 
+const options = {
+  EMPTY: {},
+  build: (method, body, token) => {
+    const options = {
+      method: method,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+    if (body) options['body'] = JSON.stringify(body);
+    if (token) options.headers['x-access-token'] = token
+    return options;
+  }
+}
+
+const handleFetch = async (url, options = {}, nested) => {
+  try {
+    const resp = await fetch(url, options);
+    const json = await resp.json();
+    if (resp.ok) {
+      if (nested) { // Execute nested fetch (ifdef), and return aggregated results.
+        if (!(json instanceof Array)) throw new Error(`Response cant be mapped.`)
+        return await Promise.all(json.map(nested))
+      }
+      return json;
+    } else {
+      const message = json.error
+        ? `${json.message}: ${json.error}`
+        : json.message;
+      throw new Error(message || resp.statusText);
+    }
+  } catch (err) {
+    throw new Error(err.message);
+  }
+};
+
 export const useMedia = () => {
   const loadMedia = async () => {
-    try {
-      const response = await fetch(api.ROUTES.all);
-      const simpleMedia = await response.json();
-      const detailedMedia = await Promise.all(
-        simpleMedia.map(async (item) => {
-          const thumbResp = await fetch(api.ROUTES.single(item.file_id));
-          const thumb = thumbResp.json();
-          return thumb;
-        })
-      );
-      return detailedMedia;
-    } catch (err) {
-      console.error(err);
-      return [];
+    const fetchDetails = async (item) => {
+      const thumbResp = await fetch(api.ROUTES.single(item.file_id));
+      const thumb = thumbResp.json();
+      return thumb;
     }
-  };
+    return handleFetch(api.ROUTES.all, options.EMPTY, fetchDetails)
+  }
 
   const [media, setMedia] = useState([]);
   useEffect(async () => setMedia(await loadMedia()), []);
@@ -26,48 +53,18 @@ export const useMedia = () => {
 };
 
 export const useUser = () => {
-  const tokenAuth = async (token) => {
-    try {
-      const options = {
-        method: 'GET',
-        headers: {'x-access-token': token},
-      };
-      const resp = await fetch(api.ROUTES.tokenAuth, options);
-      const user = await resp.json();
+  const authenticate = async (token) => await handleFetch(api.ROUTES.tokenAuth,
+    options.build('GET', null, token));
+  
+  postUser = async (data) => await handleFetch(api.ROUTES.register,
+    options.build('POST', data));
 
-      if (resp.ok) {
-        return user;
-      } else {
-        throw new Error(user.message);
-      }
-    } catch (err) {
-      throw new Error(err.message);
-    }
-  };
-  return {tokenAuth};
-}
+  return {authenticate, postUser};
+};
 
 export const useLogin = () => {
-  const postLogin = async (userCredentials) => {
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(userCredentials)
-    };
-    try {
-      const resp = await fetch(api.ROUTES.login, options);
-      const json = await resp.json();
-      if (resp.ok) {
-        return json;
-      } else {
-        throw new Error(json.error ? `${json.message}: ${json.error}` : json.message);
-      }
-    } catch (err) {
-      throw new Error(error.message);
-    }
-  };
-  
+  const postLogin = async (userCredentials) => await handleFetch(api.ROUTES.login,
+    options.build('POST', userCredentials));
+
   return {postLogin};
 };

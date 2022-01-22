@@ -4,6 +4,7 @@ const ROUTES = {
   single: (id) => `${BASE_URL}/media/${id}`,
   upload: (file) => `${BASE_URL}/uploads/${file}`,
   login: `${BASE_URL}/login`,
+  register: `${BASE_URL}/users`,
   tokenAuth: `${BASE_URL}/users/user`
 };
 

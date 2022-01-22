@@ -1,24 +1,34 @@
 import React, {useContext, useEffect} from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import {
+  StyleSheet,
+  KeyboardAvoidingView,
+  TouchableOpacity,
+  Keyboard,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import {MainContext} from '../contexts/MainContex';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {common} from '../style/common';
-import { useUser } from '../hooks/ApiHooks';
-import { LoginForm } from '../components/LoginForm';
-
+import {useUser} from '../hooks/ApiHooks';
+import {LoginForm} from '../components/LoginForm';
+import {RegisterForm} from '../components/RegisterForm';
 
 const Login = ({navigation}) => {
   const {setIsLoggedIn, isLoggedIn} = useContext(MainContext);
-  const {tokenAuth} = useUser();
+  const {authenticate} = useUser();
 
   const checkToken = async () => {
-    const token = await AsyncStorage.getItem('userToken');
     try {
-      const user = await tokenAuth(token);
-      user && setIsLoggedIn(true);
+      const token = await AsyncStorage.getItem('userToken');
+      if (token) {
+        console.log('Cached token found:\n', token)
+        const user = await authenticate(token);
+        user && setIsLoggedIn(true);
+        console.log('\nactive user: ', user);
+      } else {
+        console.log('Cached token missing.')
+      }
     } catch (err) {
-      console.error(err)
+      console.error(err);
     }
   };
 
@@ -26,15 +36,22 @@ const Login = ({navigation}) => {
     checkToken();
   }, []);
 
-  if (isLoggedIn) {
-    navigation.navigate('Tabs');
-  }
+  if (isLoggedIn) navigation.navigate('Tabs');
 
   return (
-    <View style={[common.container, styles.container]}>
-      <Text style={styles.header}>Login</Text>
-      <LoginForm />
-    </View>
+    <TouchableOpacity
+      style={{flex: 1}}
+      activeOpacity={1}
+      onPress={() => Keyboard.dismiss()}
+    >
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === 'ios' ? 'padding' : ''}
+      >
+        <LoginForm />
+        <RegisterForm />
+      </KeyboardAvoidingView>
+    </TouchableOpacity>
   );
 };
 
@@ -44,12 +61,13 @@ Login.propTypes = {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
   header: {
-    fontSize: 26
-  }
+    fontSize: 26,
+  },
 });
 
 export default Login;

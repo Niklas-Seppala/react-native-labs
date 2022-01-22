@@ -1,13 +1,11 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {Text, View, TextInput, Button, StyleSheet} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useForm, Controller} from 'react-hook-form';
-import {MainContext} from '../contexts/MainContex';
-import {useLogin} from '../hooks/ApiHooks';
+import {useUser} from '../hooks/ApiHooks';
 
-export const LoginForm = () => {
-  const {setIsLoggedIn, setUser} = useContext(MainContext);
-  const {postLogin} = useLogin();
+export const RegisterForm = () => {
+  const {postUser} = useUser();
+
   const {
     control,
     handleSubmit,
@@ -15,16 +13,17 @@ export const LoginForm = () => {
   } = useForm({
     defaultValues: {
       username: '',
+      email: '',
       password: '',
+      full_name: undefined,
     },
   });
 
   const onSubmit = async (data) => {
     try {
-      const user = await postLogin(data);
-      await AsyncStorage.setItem('userToken', user.token);
-      setUser(user.user);
-      setIsLoggedIn(true);
+      if (!(await postUser(data))) {
+        throw new Error('User registeration failed');
+      }
     } catch (error) {
       console.error(error);
     }
@@ -32,8 +31,7 @@ export const LoginForm = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Log In</Text>
-
+      <Text style={styles.header}>Register</Text>
       <Controller
         name="username"
         control={control}
@@ -50,6 +48,40 @@ export const LoginForm = () => {
         )}
       />
       {errors.username && <Text>This is required</Text>}
+
+      <Controller
+        name="email"
+        control={control}
+        rules={{required: true}}
+        render={({field: {onChange, onBlur, value}}) => (
+          <TextInput
+            style={styles.textInput}
+            autoCapitalize="none"
+            placeholder="Email"
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+          />
+        )}
+      />
+      {errors.email && <Text>This is required.</Text>}
+
+      <Controller
+        name="full_name"
+        control={control}
+        rules={{required: false}}
+        render={({field: {onChange, onBlur, value}}) => (
+          <TextInput
+            style={styles.textInput}
+            autoCapitalize="none"
+            placeholder="Full name"
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+          />
+        )}
+      />
+      {errors.full_name && <Text>This is required.</Text>}
 
       <Controller
         name="password"
@@ -69,7 +101,7 @@ export const LoginForm = () => {
       />
       {errors.password && <Text>This is required.</Text>}
 
-      <Button title="Sign in" onPress={handleSubmit(onSubmit)} />
+      <Button title="Register" onPress={handleSubmit(onSubmit)} />
     </View>
   );
 };
