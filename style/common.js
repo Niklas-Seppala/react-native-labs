@@ -2,7 +2,6 @@ import {StyleSheet, StatusBar, Platform} from 'react-native';
 
 export const common = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
     flex: 1,
   },
   AndroidSafeArea: {

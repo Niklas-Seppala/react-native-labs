@@ -5,7 +5,8 @@ const ROUTES = {
   upload: (file) => `${BASE_URL}/uploads/${file}`,
   login: `${BASE_URL}/login`,
   register: `${BASE_URL}/users`,
-  tokenAuth: `${BASE_URL}/users/user`
+  tokenAuth: `${BASE_URL}/users/user`,
+  filesByTag: (tag) => `${BASE_URL}/tags/${tag}`
 };
 
 export default {

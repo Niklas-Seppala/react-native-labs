@@ -1,4 +1,5 @@
-import {useEffect, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
+import { MainContext } from '../contexts/MainContex';
 import api from '../utils/api';
 
 const options = {
@@ -59,7 +60,10 @@ export const useUser = () => {
   postUser = async (data) => await handleFetch(api.ROUTES.register,
     options.build('POST', data));
 
-  return {authenticate, postUser};
+  getAvatar = async (id, token) => await handleFetch(api.ROUTES.filesByTag(`avatar_${id}`),
+    options.build('GET', null, token));
+
+  return {authenticate, postUser, getAvatar};
 };
 
 export const useLogin = () => {

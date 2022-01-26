@@ -13,17 +13,20 @@ import {LoginForm} from '../components/LoginForm';
 import {RegisterForm} from '../components/RegisterForm';
 
 const Login = ({navigation}) => {
-  const {setIsLoggedIn, isLoggedIn} = useContext(MainContext);
+  const {setIsLoggedIn, isLoggedIn, setUser, setToken} = useContext(MainContext);
   const {authenticate} = useUser();
 
   const checkToken = async () => {
     try {
       const token = await AsyncStorage.getItem('userToken');
       if (token) {
-        console.log('Cached token found:\n', token)
+        console.log('Cached token found')
         const user = await authenticate(token);
-        user && setIsLoggedIn(true);
-        console.log('\nactive user: ', user);
+        if (user) {
+          setToken(token);
+          setUser(user);
+          setIsLoggedIn(true);
+        }
       } else {
         console.log('Cached token missing.')
       }
