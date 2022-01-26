@@ -2,8 +2,7 @@ import React from 'react';
 import {Text} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {useUser} from '../hooks/ApiHooks';
-import { Button, Card, Input } from 'react-native-elements';
-
+import {Button, Card, Input} from 'react-native-elements';
 
 export const RegisterForm = () => {
   const {postUser} = useUser();
@@ -34,7 +33,9 @@ export const RegisterForm = () => {
   return (
     <Card>
       <Card.Divider>
-        <Text style={{fontSize: 24, alignSelf: 'center', marginBottom: 5}}>Register</Text>
+        <Text style={{fontSize: 24, alignSelf: 'center', marginBottom: 5}}>
+          Register
+        </Text>
       </Card.Divider>
 
       <Controller

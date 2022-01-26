@@ -3,11 +3,16 @@ import PropTypes from 'prop-types';
 import {StyleSheet} from 'react-native';
 import api from '../utils/api';
 
-import {ListItem as RNEListItem, Card, Image, Text} from 'react-native-elements';
+import {
+  ListItem as RNEListItem,
+  Card,
+  Image,
+  Text,
+} from 'react-native-elements';
 
 export const ListItem = ({item, navigation}) => {
   return (
-    <RNEListItem onPress={() => navigation.navigate('Single', { item: item})}>
+    <RNEListItem onPress={() => navigation.navigate('Single', {item: item})}>
       <Card>
         <Card.Divider>
           <Text h3>{item.title}</Text>
@@ -47,6 +52,6 @@ const styles = StyleSheet.create({
     fontSize: 26,
   },
   desc: {
-    fontSize: 18
-  }
+    fontSize: 18,
+  },
 });

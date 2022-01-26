@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useForm, Controller} from 'react-hook-form';
 import {MainContext} from '../contexts/MainContex';
 import {useLogin} from '../hooks/ApiHooks';
-import { Button, Card, Input } from 'react-native-elements';
+import {Button, Card, Input} from 'react-native-elements';
 
 export const LoginForm = () => {
   const {setIsLoggedIn, setUser, setToken} = useContext(MainContext);
@@ -35,7 +35,9 @@ export const LoginForm = () => {
   return (
     <Card>
       <Card.Divider>
-        <Text style={{fontSize: 24, alignSelf: 'center', marginBottom: 5}}>Log In</Text>
+        <Text style={{fontSize: 24, alignSelf: 'center', marginBottom: 5}}>
+          Log In
+        </Text>
       </Card.Divider>
 
       <Controller

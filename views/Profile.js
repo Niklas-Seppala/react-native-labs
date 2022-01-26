@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {View, Image, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {MainContext} from '../contexts/MainContex';
 import PropTypes from 'prop-types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -28,21 +28,21 @@ export const Profile = ({navigation}) => {
   return (
     <Card>
       <Card.Divider>
-      <View style={{flexDirection: 'row', alignItems: 'center'}}>
-         <Icon style={{marginRight: 5}} name="person" size={36} />
-         <Text h2>{user.username}</Text>
-       </View>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <Icon style={{marginRight: 5}} name="person" size={36} />
+          <Text h2>{user.username}</Text>
+        </View>
       </Card.Divider>
       <Card.Divider>
-      <View style={styles.header}>
-        <Avatar rounded size={90} source={{uri: avatar}}></Avatar>
-        <View style={{marginLeft: 15}}>
-          <Text style={styles.text}>{user.full_name}</Text>
-          <Text style={styles.text}>{user.email}</Text>
+        <View style={styles.header}>
+          <Avatar rounded size={90} source={{uri: avatar}}></Avatar>
+          <View style={{marginLeft: 15}}>
+            <Text style={styles.text}>{user.full_name}</Text>
+            <Text style={styles.text}>{user.email}</Text>
+          </View>
         </View>
-      </View>
       </Card.Divider>
-      <Button title='Log out' onPress={logout}></Button>
+      <Button title="Log out" onPress={logout}></Button>
     </Card>
   );
 };

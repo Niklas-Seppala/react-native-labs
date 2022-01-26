@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useUser} from '../hooks/ApiHooks';
 import {LoginForm} from '../components/LoginForm';
 import {RegisterForm} from '../components/RegisterForm';
-import { TouchableOpacity, KeyboardAvoidingView, Keyboard } from 'react-native';
+import {TouchableOpacity, KeyboardAvoidingView, Keyboard} from 'react-native';
 
 const Login = ({navigation}) => {
   const {setIsLoggedIn, isLoggedIn, setUser, setToken} =

@@ -1,5 +1,4 @@
-import {useContext, useEffect, useState} from 'react';
-import { MainContext } from '../contexts/MainContex';
+import {useEffect, useState} from 'react';
 import api from '../utils/api';
 
 const options = {
@@ -10,21 +9,23 @@ const options = {
       headers: {
         'Content-Type': 'application/json',
       },
-    }
+    };
     if (body) options['body'] = JSON.stringify(body);
-    if (token) options.headers['x-access-token'] = token
+    if (token) options.headers['x-access-token'] = token;
     return options;
-  }
-}
+  },
+};
 
 const handleFetch = async (url, options = {}, nested) => {
   try {
     const resp = await fetch(url, options);
     const json = await resp.json();
     if (resp.ok) {
-      if (nested) { // Execute nested fetch (ifdef), and return aggregated results.
-        if (!(json instanceof Array)) throw new Error(`Response cant be mapped.`)
-        return await Promise.all(json.map(nested))
+      if (nested) {
+        // Execute nested fetch (ifdef), and return aggregated results.
+        if (!(json instanceof Array))
+          throw new Error(`Response cant be mapped.`);
+        return await Promise.all(json.map(nested));
       }
       return json;
     } else {
@@ -44,9 +45,9 @@ export const useMedia = () => {
       const thumbResp = await fetch(api.ROUTES.single(item.file_id));
       const thumb = thumbResp.json();
       return thumb;
-    }
-    return handleFetch(api.ROUTES.all, options.EMPTY, fetchDetails)
-  }
+    };
+    return handleFetch(api.ROUTES.all, options.EMPTY, fetchDetails);
+  };
 
   const [media, setMedia] = useState([]);
   useEffect(async () => setMedia(await loadMedia()), []);
@@ -54,21 +55,24 @@ export const useMedia = () => {
 };
 
 export const useUser = () => {
-  const authenticate = async (token) => await handleFetch(api.ROUTES.tokenAuth,
-    options.build('GET', null, token));
-  
-  postUser = async (data) => await handleFetch(api.ROUTES.register,
-    options.build('POST', data));
+  const authenticate = async (token) =>
+    await handleFetch(api.ROUTES.tokenAuth, options.build('GET', null, token));
 
-  getAvatar = async (id, token) => await handleFetch(api.ROUTES.filesByTag(`avatar_${id}`),
-    options.build('GET', null, token));
+  postUser = async (data) =>
+    await handleFetch(api.ROUTES.register, options.build('POST', data));
+
+  getAvatar = async (id, token) =>
+    await handleFetch(
+      api.ROUTES.filesByTag(`avatar_${id}`),
+      options.build('GET', null, token)
+    );
 
   return {authenticate, postUser, getAvatar};
 };
 
 export const useLogin = () => {
-  const postLogin = async (userCredentials) => await handleFetch(api.ROUTES.login,
-    options.build('POST', userCredentials));
+  const postLogin = async (userCredentials) =>
+    await handleFetch(api.ROUTES.login, options.build('POST', userCredentials));
 
   return {postLogin};
 };

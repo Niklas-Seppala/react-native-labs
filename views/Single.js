@@ -10,9 +10,7 @@ export const Single = ({route: {params}}) => {
   return (
     <Card>
       <Card.Divider style={styles.header}>
-        <Text h2>
-          {item.title}
-        </Text>
+        <Text h2>{item.title}</Text>
         <Image
           containerStyle={styles.img}
           source={imgSrc}
@@ -34,6 +32,6 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   header: {
-    paddingBottom: 15
-  }
+    paddingBottom: 15,
+  },
 });

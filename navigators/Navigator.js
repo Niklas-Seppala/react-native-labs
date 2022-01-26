@@ -9,7 +9,6 @@ import {Home} from '../views/Home';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Login from '../views/Login';
 import {MainContext} from '../contexts/MainContex';
-import { Icon } from 'react-native-elements';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
