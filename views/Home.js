@@ -1,12 +1,11 @@
 import React from 'react';
 import {View} from 'react-native';
-import {common} from '../style/common';
 import {List} from '../components/List';
 import PropTypes from 'prop-types';
 
 export const Home = ({navigation}) => {
   return (
-    <View style={common.container}>
+    <View>
       <List navigation={navigation} />
     </View>
   );

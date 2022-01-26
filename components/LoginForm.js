@@ -1,9 +1,10 @@
 import React, {useContext} from 'react';
-import {Text, View, TextInput, Button, StyleSheet} from 'react-native';
+import {Text} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useForm, Controller} from 'react-hook-form';
 import {MainContext} from '../contexts/MainContex';
 import {useLogin} from '../hooks/ApiHooks';
+import { Button, Card, Input } from 'react-native-elements';
 
 export const LoginForm = () => {
   const {setIsLoggedIn, setUser, setToken} = useContext(MainContext);
@@ -32,16 +33,17 @@ export const LoginForm = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Log In</Text>
+    <Card>
+      <Card.Divider>
+        <Text style={{fontSize: 24, alignSelf: 'center', marginBottom: 5}}>Log In</Text>
+      </Card.Divider>
 
       <Controller
         name="username"
         control={control}
         rules={{required: true}}
         render={({field: {onChange, onBlur, value}}) => (
-          <TextInput
-            style={styles.textInput}
+          <Input
             autoCapitalize="none"
             placeholder="Username"
             onBlur={onBlur}
@@ -57,8 +59,7 @@ export const LoginForm = () => {
         control={control}
         rules={{required: true}}
         render={({field: {onChange, onBlur, value}}) => (
-          <TextInput
-            style={styles.textInput}
+          <Input
             autoCapitalize="none"
             placeholder="Password"
             secureTextEntry={true}
@@ -69,29 +70,7 @@ export const LoginForm = () => {
         )}
       />
       {errors.password && <Text>This is required.</Text>}
-
       <Button title="Sign in" onPress={handleSubmit(onSubmit)} />
-    </View>
+    </Card>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 25,
-  },
-  textInput: {
-    margin: 12,
-    width: 150,
-    borderWidth: 1,
-    padding: 5,
-    borderRadius: 5,
-    fontSize: 18,
-    textAlign: 'center',
-    minWidth: 220,
-  },
-  header: {
-    fontSize: 24,
-  },
-});

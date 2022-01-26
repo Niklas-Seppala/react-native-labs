@@ -1,7 +1,9 @@
 import React from 'react';
-import {Text, View, TextInput, Button, StyleSheet} from 'react-native';
+import {Text} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {useUser} from '../hooks/ApiHooks';
+import { Button, Card, Input } from 'react-native-elements';
+
 
 export const RegisterForm = () => {
   const {postUser} = useUser();
@@ -30,15 +32,17 @@ export const RegisterForm = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Register</Text>
+    <Card>
+      <Card.Divider>
+        <Text style={{fontSize: 24, alignSelf: 'center', marginBottom: 5}}>Register</Text>
+      </Card.Divider>
+
       <Controller
         name="username"
         control={control}
         rules={{required: true}}
         render={({field: {onChange, onBlur, value}}) => (
-          <TextInput
-            style={styles.textInput}
+          <Input
             autoCapitalize="none"
             placeholder="Username"
             onBlur={onBlur}
@@ -54,8 +58,7 @@ export const RegisterForm = () => {
         control={control}
         rules={{required: true}}
         render={({field: {onChange, onBlur, value}}) => (
-          <TextInput
-            style={styles.textInput}
+          <Input
             autoCapitalize="none"
             placeholder="Email"
             onBlur={onBlur}
@@ -71,8 +74,7 @@ export const RegisterForm = () => {
         control={control}
         rules={{required: false}}
         render={({field: {onChange, onBlur, value}}) => (
-          <TextInput
-            style={styles.textInput}
+          <Input
             autoCapitalize="none"
             placeholder="Full name"
             onBlur={onBlur}
@@ -88,8 +90,7 @@ export const RegisterForm = () => {
         control={control}
         rules={{required: true}}
         render={({field: {onChange, onBlur, value}}) => (
-          <TextInput
-            style={styles.textInput}
+          <Input
             autoCapitalize="none"
             placeholder="Password"
             secureTextEntry={true}
@@ -102,27 +103,6 @@ export const RegisterForm = () => {
       {errors.password && <Text>This is required.</Text>}
 
       <Button title="Register" onPress={handleSubmit(onSubmit)} />
-    </View>
+    </Card>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 25,
-  },
-  textInput: {
-    margin: 12,
-    width: 150,
-    borderWidth: 1,
-    padding: 5,
-    borderRadius: 5,
-    fontSize: 18,
-    textAlign: 'center',
-    minWidth: 220,
-  },
-  header: {
-    fontSize: 24,
-  },
-});

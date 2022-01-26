@@ -1,18 +1,18 @@
 import React from 'react';
-import {StatusBar as ExpoStatusBar} from 'expo-status-bar';
-import {SafeAreaView} from 'react-native';
-import {common} from './style/common';
 import Navigator from './navigators/Navigator';
 import {MainProvider} from './contexts/MainContex';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {ThemeProvider} from 'react-native-elements';
 
 const App = () => {
   return (
-    <SafeAreaView style={[common.container, common.AndroidSafeArea]}>
+    <SafeAreaProvider>
       <MainProvider>
-        <Navigator />
-        <ExpoStatusBar style="auto" />
+        <ThemeProvider>
+          <Navigator />
+        </ThemeProvider>
       </MainProvider>
-    </SafeAreaView>
+    </SafeAreaProvider>
   );
 };
 
