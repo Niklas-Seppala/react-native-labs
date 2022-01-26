@@ -6,6 +6,7 @@ import {Single} from '../views/Single';
 import {Profile} from '../views/Profile';
 import {Home} from '../views/Home';
 
+import Register from '../views/Register';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Login from '../views/Login';
 import {MainContext} from '../contexts/MainContex';
@@ -50,7 +51,10 @@ const StackScreen = () => {
           <Stack.Screen name="Single" component={Single} />
         </>
       ) : (
+        <>
         <Stack.Screen name="Login" component={Login}></Stack.Screen>
+        <Stack.Screen name="Register" component={Register}></Stack.Screen>
+        </>
       )}
     </Stack.Navigator>
   );

@@ -1,12 +1,26 @@
 import React, {useContext} from 'react';
-import {Text} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useForm, Controller} from 'react-hook-form';
 import {MainContext} from '../contexts/MainContex';
 import {useLogin} from '../hooks/ApiHooks';
-import {Button, Card, Input} from 'react-native-elements';
+import {Button, Card, Input, Text} from 'react-native-elements';
+import { TouchableOpacity } from 'react-native';
+import { trimTextFields } from '../utils/forms';
+import colors from '../styling/colors';
 
-export const LoginForm = () => {
+const NoAccount = ({navigation}) => {
+  return (
+    <>
+      <Text h4>Don't have an account?</Text>
+      <Card.Divider></Card.Divider>
+      <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+        <Text style={{color: colors.accent}}>Register here</Text>
+      </TouchableOpacity>
+    </>
+  );
+};
+
+export const LoginForm = ({navigation}) => {
   const {setIsLoggedIn, setUser, setToken} = useContext(MainContext);
   const {postLogin} = useLogin();
   const {
@@ -21,6 +35,7 @@ export const LoginForm = () => {
   });
 
   const onSubmit = async (data) => {
+    trimTextFields(data);
     try {
       const user = await postLogin(data);
       await AsyncStorage.setItem('userToken', user.token);
@@ -35,9 +50,7 @@ export const LoginForm = () => {
   return (
     <Card>
       <Card.Divider>
-        <Text style={{fontSize: 24, alignSelf: 'center', marginBottom: 5}}>
-          Log In
-        </Text>
+        <Text h4>Log In</Text>
       </Card.Divider>
 
       <Controller
@@ -73,6 +86,8 @@ export const LoginForm = () => {
       />
       {errors.password && <Text>This is required.</Text>}
       <Button title="Sign in" onPress={handleSubmit(onSubmit)} />
+      <Card.Divider />
+      <NoAccount navigation={navigation}/>
     </Card>
   );
 };

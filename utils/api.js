@@ -7,6 +7,9 @@ const ROUTES = {
   register: `${BASE_URL}/users`,
   tokenAuth: `${BASE_URL}/users/user`,
   filesByTag: (tag) => `${BASE_URL}/tags/${tag}`,
+  user: {
+    byId: (id) => `${BASE_URL}/users/${id}`,
+  },
 };
 
 export default {

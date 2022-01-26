@@ -1,10 +1,10 @@
 import React from 'react';
-import {Text} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {useUser} from '../hooks/ApiHooks';
-import {Button, Card, Input} from 'react-native-elements';
+import {Button, Card, Input, Text} from 'react-native-elements';
+import {trimTextFields} from '../utils/forms';
 
-export const RegisterForm = () => {
+export const RegisterForm = ({navigation}) => {
   const {postUser} = useUser();
 
   const {
@@ -21,10 +21,12 @@ export const RegisterForm = () => {
   });
 
   const onSubmit = async (data) => {
+    trimTextFields(data);
     try {
       if (!(await postUser(data))) {
         throw new Error('User registeration failed');
       }
+      navigation.goBack();
     } catch (error) {
       console.error(error);
     }
@@ -33,9 +35,7 @@ export const RegisterForm = () => {
   return (
     <Card>
       <Card.Divider>
-        <Text style={{fontSize: 24, alignSelf: 'center', marginBottom: 5}}>
-          Register
-        </Text>
+        <Text h4>Register</Text>
       </Card.Divider>
 
       <Controller
@@ -96,7 +96,7 @@ export const RegisterForm = () => {
             placeholder="Password"
             secureTextEntry={true}
             onBlur={onBlur}
-            onChangeText={onChange}
+            onChangeText={(e) => onChange(e.trim())}
             value={value}
           />
         )}

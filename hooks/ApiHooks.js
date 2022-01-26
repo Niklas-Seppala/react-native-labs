@@ -10,7 +10,7 @@ const options = {
         'Content-Type': 'application/json',
       },
     };
-    if (body) options['body'] = JSON.stringify(body);
+    if (body) options.body = JSON.stringify(body);
     if (token) options.headers['x-access-token'] = token;
     return options;
   },
@@ -58,16 +58,22 @@ export const useUser = () => {
   const authenticate = async (token) =>
     await handleFetch(api.ROUTES.tokenAuth, options.build('GET', null, token));
 
-  postUser = async (data) =>
+  const postUser = async (data) =>
     await handleFetch(api.ROUTES.register, options.build('POST', data));
 
-  getAvatar = async (id, token) =>
+  const getUser = async (id, token) =>
+    await handleFetch(
+      api.ROUTES.user.byId(id),
+      options.build('GET', null, token)
+    );
+
+  const getAvatar = async (id, token) =>
     await handleFetch(
       api.ROUTES.filesByTag(`avatar_${id}`),
       options.build('GET', null, token)
     );
 
-  return {authenticate, postUser, getAvatar};
+  return {authenticate, postUser, getAvatar, getUser};
 };
 
 export const useLogin = () => {

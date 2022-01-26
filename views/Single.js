@@ -1,12 +1,24 @@
-import React from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import api from '../utils/api';
 import {Image, Card, Text} from 'react-native-elements';
 import {ActivityIndicator, StyleSheet} from 'react-native';
+import {useUser} from '../hooks/ApiHooks';
+import {MainContext} from '../contexts/MainContex';
 
 export const Single = ({route: {params}}) => {
   const {item} = params;
+  const [owner, setOwner] = useState(undefined);
+  const {getUser} = useUser();
+  const {token} = useContext(MainContext);
+
+  useEffect(async () => {
+    const user = await getUser(item.user_id, token);
+    setOwner(user);
+  }, []);
+
   const imgSrc = {uri: api.ROUTES.upload(item.filename)};
+
   return (
     <Card>
       <Card.Divider style={styles.header}>
@@ -17,7 +29,8 @@ export const Single = ({route: {params}}) => {
           PlaceholderContent={<ActivityIndicator />}
         />
       </Card.Divider>
-      <Text h4>{item.description}</Text>
+      {Boolean(item.description) && <Text h4>{item.description}</Text>}
+      {owner && <Text h4>{`By ${owner.username}`}</Text>}
     </Card>
   );
 };

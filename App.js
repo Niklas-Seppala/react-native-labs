@@ -4,11 +4,14 @@ import {MainProvider} from './contexts/MainContex';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {ThemeProvider} from 'react-native-elements';
 
+import themes from './styling/themes';
+
+
 const App = () => {
   return (
     <SafeAreaProvider>
       <MainProvider>
-        <ThemeProvider>
+        <ThemeProvider theme={themes.light}>
           <Navigator />
         </ThemeProvider>
       </MainProvider>
