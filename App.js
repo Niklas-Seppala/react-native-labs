@@ -6,7 +6,6 @@ import {ThemeProvider} from 'react-native-elements';
 
 import themes from './styling/themes';
 
-
 const App = () => {
   return (
     <SafeAreaProvider>

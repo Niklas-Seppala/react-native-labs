@@ -55,6 +55,9 @@ export const useMedia = () => {
 };
 
 export const useUser = () => {
+  const checkUsername = async (username) =>
+    await handleFetch(api.ROUTES.user.username(username), options.build('GET'));
+
   const authenticate = async (token) =>
     await handleFetch(api.ROUTES.tokenAuth, options.build('GET', null, token));
 
@@ -73,7 +76,7 @@ export const useUser = () => {
       options.build('GET', null, token)
     );
 
-  return {authenticate, postUser, getAvatar, getUser};
+  return {authenticate, postUser, getAvatar, getUser, checkUsername};
 };
 
 export const useLogin = () => {

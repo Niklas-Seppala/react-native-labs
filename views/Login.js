@@ -37,7 +37,7 @@ const Login = ({navigation}) => {
   return (
     <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : ''}>
-        <LoginForm navigation={navigation}/>
+        <LoginForm navigation={navigation} />
       </KeyboardAvoidingView>
     </TouchableOpacity>
   );

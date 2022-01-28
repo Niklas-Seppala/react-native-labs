@@ -9,6 +9,7 @@ const ROUTES = {
   filesByTag: (tag) => `${BASE_URL}/tags/${tag}`,
   user: {
     byId: (id) => `${BASE_URL}/users/${id}`,
+    username: (username) => `${BASE_URL}/users/username/${username}`,
   },
 };
 

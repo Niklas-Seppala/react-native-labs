@@ -3,6 +3,7 @@ const colors = {
   light: '#FDFFFC',
   dark: '#3C3737',
   accent: '#8F7895',
+  error: '#a31822',
 };
 
 export default colors;

@@ -5,29 +5,29 @@ const themes = {
     Text: {
       style: {
         fontSize: 18,
-        color: colors.dark
+        color: colors.dark,
       },
     },
     ListItemTitle: {
-        style: {
-          fontSize: 24,
-        }
+      style: {
+        fontSize: 24,
+      },
     },
     Button: {
       raised: true,
       buttonStyle: {
         paddingHorizontal: 30,
-        backgroundColor: colors.accent
+        backgroundColor: colors.accent,
       },
       titleStyle: {
         fontSize: 18,
-        color: colors.light
+        color: colors.light,
       },
     },
     Avatar: {
       rounded: true,
-    }
-  }
+    },
+  },
 };
 
 export default themes;

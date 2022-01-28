@@ -7,7 +7,7 @@ const Register = ({navigation}) => {
   return (
     <TouchableOpacity activeOpacity={1} onPress={() => Keyboard.dismiss()}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : ''}>
-        <RegisterForm />
+        <RegisterForm navigation={navigation} />
       </KeyboardAvoidingView>
     </TouchableOpacity>
   );

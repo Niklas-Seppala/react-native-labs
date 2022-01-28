@@ -4,8 +4,8 @@ import {useForm, Controller} from 'react-hook-form';
 import {MainContext} from '../contexts/MainContex';
 import {useLogin} from '../hooks/ApiHooks';
 import {Button, Card, Input, Text} from 'react-native-elements';
-import { TouchableOpacity } from 'react-native';
-import { trimTextFields } from '../utils/forms';
+import {TouchableOpacity} from 'react-native';
+import {trimTextFields} from '../utils/forms';
 import colors from '../styling/colors';
 
 const NoAccount = ({navigation}) => {
@@ -32,6 +32,7 @@ export const LoginForm = ({navigation}) => {
       username: '',
       password: '',
     },
+    mode: 'onBlur',
   });
 
   const onSubmit = async (data) => {
@@ -56,38 +57,41 @@ export const LoginForm = ({navigation}) => {
       <Controller
         name="username"
         control={control}
-        rules={{required: true}}
+        rules={{required: 'Please provide username'}}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
             autoCapitalize="none"
+            leftIcon={{type: 'font-awesome', name: 'user', size: 16}}
             placeholder="Username"
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
+            errorMessage={errors.username?.message}
           />
         )}
       />
-      {errors.username && <Text>This is required</Text>}
 
       <Controller
         name="password"
         control={control}
-        rules={{required: true}}
+        rules={{required: 'Please provide password'}}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
+            leftIcon={{type: 'font-awesome', name: 'lock'}}
             autoCapitalize="none"
             placeholder="Password"
             secureTextEntry={true}
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
+            errorMessage={errors.password?.message}
           />
         )}
       />
-      {errors.password && <Text>This is required.</Text>}
+
       <Button title="Sign in" onPress={handleSubmit(onSubmit)} />
       <Card.Divider />
-      <NoAccount navigation={navigation}/>
+      <NoAccount navigation={navigation} />
     </Card>
   );
 };
