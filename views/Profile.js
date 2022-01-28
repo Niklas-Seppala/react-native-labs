@@ -27,12 +27,9 @@ export const Profile = ({navigation}) => {
 
   return (
     <Card>
-      <Card.Divider>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <Icon style={{marginRight: 5}} name="person" size={36} />
-          <Text h2>{user.username}</Text>
-        </View>
-      </Card.Divider>
+      <Card.Title>
+        <Text h2>{user.username}</Text>
+      </Card.Title>
       <Card.Divider>
         <View style={styles.header}>
           <Avatar rounded size={90} source={{uri: avatar}}></Avatar>
