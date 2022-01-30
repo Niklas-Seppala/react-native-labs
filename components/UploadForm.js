@@ -4,8 +4,8 @@ import {Button, Card, Input, Text} from 'react-native-elements';
 import {ImagePicker} from './ImagePicker';
 
 import {useMedia} from '../hooks/ApiHooks';
-import { extractFileExt, extractFilename } from '../utils/forms';
-import { MainContext } from '../contexts/MainContex';
+import {extractFileExt, extractFilename} from '../utils/forms';
+import {MainContext} from '../contexts/MainContex';
 
 export const UploadForm = () => {
   const [img, setImg] = useState(null);
@@ -33,27 +33,27 @@ export const UploadForm = () => {
 
       const filename = extractFilename(img.uri);
       const fExtension = extractFileExt(filename);
-      const mimetype = `${img.type}/${fExtension === 'jpg' ? 'jpeg' : fExtension}` ;
-      console.log(img.uri)
-      console.log(filename)
-      console.log(mimetype)
-
-      formData.append('title', data.title);
-      formData.append('description', data.description)
-      formData.append('file', {
+      const mimetype = `${img.type}/${
+        fExtension === 'jpg' ? 'jpeg' : fExtension
+      }`;
+      
+      const upload = {
         uri: img.uri,
         name: filename,
-        type: `${img.type}/${mimetype}` ,
-      });
+        type: `${img.type}/${mimetype}`,
+      };
+      console.log(upload);
+
+      formData.append('title', data.title);
+      formData.append('description', data.description);
+      formData.append('file', upload);
 
       setUploading(true);
       await postMedia(formData, token);
       setUploading(false);
-
     } catch (error) {
       console.error(error);
       setUploading(false);
-
     }
   };
 
@@ -96,7 +96,11 @@ export const UploadForm = () => {
       <Card.Divider>
         <ImagePicker selected={img} onSuccess={(img) => setImg(img)} />
       </Card.Divider>
-      <Button loading={uploading} title="Upload" onPress={handleSubmit(onSubmit)} />
+      <Button
+        loading={uploading}
+        title="Upload"
+        onPress={handleSubmit(onSubmit)}
+      />
       <Card.Divider />
     </>
   );
