@@ -7,6 +7,11 @@ const ROUTES = {
   register: `${BASE_URL}/users`,
   tokenAuth: `${BASE_URL}/users/user`,
   filesByTag: (tag) => `${BASE_URL}/tags/${tag}`,
+
+  media: {
+    post:  `${BASE_URL}/media`
+  },
+
   user: {
     byId: (id) => `${BASE_URL}/users/${id}`,
     username: (username) => `${BASE_URL}/users/username/${username}`,

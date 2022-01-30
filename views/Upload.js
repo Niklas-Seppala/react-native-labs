@@ -1,0 +1,19 @@
+import React from 'react';
+import {View} from 'react-native';
+import PropTypes from 'prop-types';
+import {Card} from 'react-native-elements';
+import { UploadForm } from '../components/UploadForm';
+
+export const Upload = ({navigation}) => {
+  return (
+    <View>
+      <Card>
+        <UploadForm></UploadForm>
+      </Card>
+    </View>
+  );
+};
+
+Upload.propTypes = {
+  navigation: PropTypes.object,
+};

@@ -3,7 +3,7 @@ import api from '../utils/api';
 
 const options = {
   EMPTY: {},
-  build: (method, body, token) => {
+  build: (method, body, token, formdata) => {
     const options = {
       method: method,
       headers: {
@@ -12,6 +12,7 @@ const options = {
     };
     if (body) options.body = JSON.stringify(body);
     if (token) options.headers['x-access-token'] = token;
+    if (formdata) options.headers['Content-Type'] = 'multipart/form-data'
     return options;
   },
 };
@@ -19,6 +20,11 @@ const options = {
 const handleFetch = async (url, options = {}, nested) => {
   try {
     const resp = await fetch(url, options);
+
+    if (resp.status >= 500) {
+      throw new Error('Oopsie woopsie: ' + resp.status)
+    }
+
     const json = await resp.json();
     if (resp.ok) {
       if (nested) {
@@ -40,6 +46,12 @@ const handleFetch = async (url, options = {}, nested) => {
 };
 
 export const useMedia = () => {
+  const postMedia = async (item, token) =>
+    await handleFetch(
+      api.ROUTES.media.post,
+      options.build('POST', item, token, true)
+    );
+
   const loadMedia = async () => {
     const fetchDetails = async (item) => {
       const thumbResp = await fetch(api.ROUTES.single(item.file_id));
@@ -51,7 +63,8 @@ export const useMedia = () => {
 
   const [media, setMedia] = useState([]);
   useEffect(async () => setMedia(await loadMedia()), []);
-  return {media};
+
+  return {media, postMedia};
 };
 
 export const useUser = () => {
