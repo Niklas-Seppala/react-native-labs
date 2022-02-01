@@ -3,6 +3,7 @@ import {View} from 'react-native';
 import {List} from '../components/List';
 import PropTypes from 'prop-types';
 
+
 export const Home = ({navigation}) => {
   return (
     <View>

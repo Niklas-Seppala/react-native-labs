@@ -8,7 +8,7 @@ export const Upload = ({navigation}) => {
   return (
     <View>
       <Card>
-        <UploadForm></UploadForm>
+        <UploadForm onSuccess={() => navigation.navigate('Home')} />
       </Card>
     </View>
   );

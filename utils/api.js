@@ -1,24 +1,33 @@
-const BASE_URL = 'https://media.mw.metropolia.fi/wbma';
-const ROUTES = {
-  all: `${BASE_URL}/media`,
-  single: (id) => `${BASE_URL}/media/${id}`,
-  upload: (file) => `${BASE_URL}/uploads/${file}`,
-  login: `${BASE_URL}/login`,
-  register: `${BASE_URL}/users`,
-  tokenAuth: `${BASE_URL}/users/user`,
-  filesByTag: (tag) => `${BASE_URL}/tags/${tag}`,
+import Constants from "expo-constants";
+
+const { manifest } = Constants;
+
+const dev = `http://${manifest.debuggerHost.split(':').shift()}:3000`;
+const prod = 'https://media.mw.metropolia.fi/wbma';
+
+const routes = {
+  all: `${prod}/media`,
+  single: (id) => `${prod}/media/${id}`,
+  upload: (file) => `${prod}/uploads/${file}`,
+  login: `${prod}/login`,
+  register: `${prod}/users`,
+  tokenAuth: `${prod}/users/user`,
+  filesByTag: (tag) => `${prod}/tags/${tag}`,
 
   media: {
-    post:  `${BASE_URL}/media`
+    post:  `${prod}/media`
   },
 
   user: {
-    byId: (id) => `${BASE_URL}/users/${id}`,
-    username: (username) => `${BASE_URL}/users/username/${username}`,
+    byId: (id) => `${prod}/users/${id}`,
+    username: (username) => `${prod}/users/username/${username}`,
   },
 };
 
 export default {
-  ROUTES,
-  BASE_URL,
+  ROUTES: routes,
+  URL: {
+    dev,
+    prod
+  }
 };

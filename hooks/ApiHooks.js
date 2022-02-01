@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {useEffect, useState} from 'react';
 import api from '../utils/api';
 
@@ -12,7 +13,7 @@ const options = {
     };
     if (body) options.body = JSON.stringify(body);
     if (token) options.headers['x-access-token'] = token;
-    if (formdata) options.headers['Content-Type'] = 'multipart/form-data'
+    if (formdata) options.headers['Content-Type'] = 'multipart/form-data';
     return options;
   },
 };
@@ -22,7 +23,7 @@ const handleFetch = async (url, options = {}, nested) => {
     const resp = await fetch(url, options);
 
     if (resp.status >= 500) {
-      throw new Error('Oopsie woopsie: ' + resp.status)
+      throw new Error('Oopsie woopsie: ' + resp.status);
     }
 
     const json = await resp.json();
@@ -47,10 +48,12 @@ const handleFetch = async (url, options = {}, nested) => {
 
 export const useMedia = () => {
   const postMedia = async (item, token) =>
-    await handleFetch(
-      api.ROUTES.media.post,
-      options.build('POST', item, token, true)
-    );
+    await axios.post(api.ROUTES.media.post, item, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'x-access-token': token
+      }
+    })
 
   const loadMedia = async () => {
     const fetchDetails = async (item) => {

@@ -7,11 +7,12 @@ import {useMedia} from '../hooks/ApiHooks';
 import {extractFileExt, extractFilename} from '../utils/forms';
 import {MainContext} from '../contexts/MainContex';
 
-export const UploadForm = () => {
+export const UploadForm = ({onSuccess}) => {
   const [img, setImg] = useState(null);
   const [uploading, setUploading] = useState(false);
   const {postMedia} = useMedia();
   const {token} = useContext(MainContext);
+  const [allGood, setAllGood] = useState(false);
 
   const {
     control,
@@ -40,17 +41,19 @@ export const UploadForm = () => {
       const upload = {
         uri: img.uri,
         name: filename,
-        type: `${img.type}/${mimetype}`,
+        type: mimetype,
       };
-      console.log(upload);
 
       formData.append('title', data.title);
       formData.append('description', data.description);
       formData.append('file', upload);
 
       setUploading(true);
-      await postMedia(formData, token);
+      const resp = await postMedia(formData, token);
       setUploading(false);
+
+      if (resp.status === 200) onSuccess?.call(this);
+      
     } catch (error) {
       console.error(error);
       setUploading(false);
@@ -97,6 +100,7 @@ export const UploadForm = () => {
         <ImagePicker selected={img} onSuccess={(img) => setImg(img)} />
       </Card.Divider>
       <Button
+        disabled={!allGood}
         loading={uploading}
         title="Upload"
         onPress={handleSubmit(onSubmit)}
