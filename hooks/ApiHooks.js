@@ -1,6 +1,7 @@
-import axios from 'axios';
-import {useEffect, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
+import {MainContext} from '../contexts/MainContex';
 import api from '../utils/api';
+const APP_TAG = '098fea725eb66a1';
 
 const options = {
   EMPTY: {},
@@ -46,49 +47,78 @@ const handleFetch = async (url, options = {}, nested) => {
   }
 };
 
+export const useTag = () => {
+  const postTag = async (id, token) => {
+    return await handleFetch(
+      api.routes.tag.post,
+      options.build(
+        'POST',
+        {
+          file_id: id,
+          tag: APP_TAG,
+        },
+        token
+      )
+    );
+  };
+
+  return {postTag};
+};
+
 export const useMedia = () => {
-  const postMedia = async (item, token) =>
-    await axios.post(api.ROUTES.media.post, item, {
+  const postMedia = async (formData, token) => {
+    const options = {
+      method: 'POST',
       headers: {
+        'x-access-token': token,
         'Content-Type': 'multipart/form-data',
-        'x-access-token': token
-      }
-    })
+      },
+      body: formData,
+    };
+
+    const result = await handleFetch(api.routes.media.post, options);
+    return result;
+  };
 
   const loadMedia = async () => {
-    const fetchDetails = async (item) => {
-      const thumbResp = await fetch(api.ROUTES.single(item.file_id));
-      const thumb = thumbResp.json();
-      return thumb;
-    };
-    return handleFetch(api.ROUTES.all, options.EMPTY, fetchDetails);
+    return handleFetch(
+      api.routes.tag.files(APP_TAG),
+      options.EMPTY,
+      async (item) => {
+        const thumbResp = await fetch(api.routes.single(item.file_id));
+        const thumb = thumbResp.json();
+        return thumb;
+      }
+    );
   };
 
   const [media, setMedia] = useState([]);
-  useEffect(async () => setMedia(await loadMedia()), []);
+  const {upload} = useContext(MainContext);
+
+  useEffect(async () => setMedia(await loadMedia()), [upload]);
 
   return {media, postMedia};
 };
 
 export const useUser = () => {
   const checkUsername = async (username) =>
-    await handleFetch(api.ROUTES.user.username(username), options.build('GET'));
+    await handleFetch(api.routes.user.username(username), options.build('GET'));
 
   const authenticate = async (token) =>
-    await handleFetch(api.ROUTES.tokenAuth, options.build('GET', null, token));
+    await handleFetch(api.routes.tokenAuth, options.build('GET', null, token));
 
   const postUser = async (data) =>
-    await handleFetch(api.ROUTES.register, options.build('POST', data));
+    await handleFetch(api.routes.register, options.build('POST', data));
 
   const getUser = async (id, token) =>
     await handleFetch(
-      api.ROUTES.user.byId(id),
+      api.routes.user.byId(id),
       options.build('GET', null, token)
     );
 
   const getAvatar = async (id, token) =>
     await handleFetch(
-      api.ROUTES.filesByTag(`avatar_${id}`),
+      api.routes.tag.files(`avatar_${id}`),
       options.build('GET', null, token)
     );
 
@@ -97,7 +127,7 @@ export const useUser = () => {
 
 export const useLogin = () => {
   const postLogin = async (userCredentials) =>
-    await handleFetch(api.ROUTES.login, options.build('POST', userCredentials));
+    await handleFetch(api.routes.login, options.build('POST', userCredentials));
 
   return {postLogin};
 };

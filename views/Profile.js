@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useUser} from '../hooks/ApiHooks';
 import api from '../utils/api';
-import {Icon, Button, Avatar, Card, Text} from 'react-native-elements';
+import {Button, Avatar, Card, Text} from 'react-native-elements';
 
 export const Profile = ({navigation}) => {
   const {setIsLoggedIn, user, token} = useContext(MainContext);
@@ -15,7 +15,7 @@ export const Profile = ({navigation}) => {
   useEffect(async () => {
     const files = await getAvatar(user.user_id, token);
     if (files.length) {
-      setAvatar(api.ROUTES.upload(files[0].filename));
+      setAvatar(api.routes.upload(files[0].filename));
     }
   }, [user]);
 

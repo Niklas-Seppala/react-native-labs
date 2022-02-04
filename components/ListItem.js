@@ -11,7 +11,7 @@ export const ListItem = ({item, navigation}) => {
         avatarStyle={{borderRadius: 5}}
         size="large"
         rounded={false}
-        source={{uri: api.ROUTES.upload(item.thumbnails.w160)}}
+        source={{uri: api.routes.upload(item.thumbnails.w160)}}
       />
       <RNEListItem.Content>
         <RNEListItem.Title numberOfLines={1}>{item.title}</RNEListItem.Title>

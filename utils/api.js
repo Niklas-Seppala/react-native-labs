@@ -12,7 +12,11 @@ const routes = {
   login: `${prod}/login`,
   register: `${prod}/users`,
   tokenAuth: `${prod}/users/user`,
-  filesByTag: (tag) => `${prod}/tags/${tag}`,
+
+  tag: {
+    files: (tag) => `${prod}/tags/${tag}`,
+    post: `${prod}/tags`
+  },
 
   media: {
     post:  `${prod}/media`
@@ -25,7 +29,7 @@ const routes = {
 };
 
 export default {
-  ROUTES: routes,
+  routes,
   URL: {
     dev,
     prod

@@ -17,7 +17,7 @@ export const Single = ({route: {params}}) => {
     setOwner(user);
   }, []);
 
-  const imgSrc = {uri: api.ROUTES.upload(item.filename)};
+  const imgSrc = {uri: api.routes.upload(item.filename)};
 
   return (
     <Card>

@@ -7,10 +7,20 @@ const MainProvider = (props) => {
   const [token, setToken] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState({});
+  const [upload, setUpload] = useState(false);
 
   return (
     <MainContext.Provider
-      value={{isLoggedIn, setIsLoggedIn, user, setUser, token, setToken}}
+      value={{
+        isLoggedIn,
+        setIsLoggedIn,
+        user,
+        setUser,
+        token,
+        setToken,
+        upload,
+        setUpload,
+      }}
     >
       {props.children}
     </MainContext.Provider>

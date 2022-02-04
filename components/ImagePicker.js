@@ -2,18 +2,14 @@ import React from 'react';
 import {Button, Image} from 'react-native-elements';
 import colors from '../styling/colors';
 import * as ImagePickerUtil from 'expo-image-picker';
-import {ActivityIndicator, View, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 
 export const ImagePicker = ({selected, onSuccess}) => {
   const pickImage = async () => {
-    const {status} = await ImagePickerUtil.requestMediaLibraryPermissionsAsync();
-
-    if (status !== 'granted') return;
 
     const res = await ImagePickerUtil.launchImageLibraryAsync({
-      mediaTypes: ImagePickerUtil.MediaTypeOptions.Images,
+      mediaTypes: ImagePickerUtil.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
       quality: 0.7,
     });
 
@@ -27,7 +23,6 @@ export const ImagePicker = ({selected, onSuccess}) => {
           resizeMode={'contain'}
           source={{uri: selected.uri}}
           containerStyle={styles.item}
-          PlaceholderContent={<ActivityIndicator />}
         />
       )}
       <Button
