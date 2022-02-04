@@ -6,7 +6,6 @@ import {View, StyleSheet} from 'react-native';
 
 export const ImagePicker = ({selected, onSuccess}) => {
   const pickImage = async () => {
-
     const res = await ImagePickerUtil.launchImageLibraryAsync({
       mediaTypes: ImagePickerUtil.MediaTypeOptions.All,
       allowsEditing: true,

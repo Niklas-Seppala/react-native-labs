@@ -9,7 +9,7 @@ export const trimTextFields = (data) => {
 
 export const extractFilename = (path) => path.replace(/^.*[\\\/]/, '');
 
-export const extractFileExt = (filename) => filename.split('.').pop();  
+export const extractFileExt = (filename) => filename.split('.').pop();
 
 export const extractFileData = (file) => {
   const filename = file.uri.split('/').pop();

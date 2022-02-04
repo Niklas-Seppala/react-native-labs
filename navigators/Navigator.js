@@ -10,7 +10,7 @@ import Register from '../views/Register';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Login from '../views/Login';
 import {MainContext} from '../contexts/MainContex';
-import { Upload } from '../views/Upload';
+import {Upload} from '../views/Upload';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -18,7 +18,7 @@ const Stack = createNativeStackNavigator();
 const NAV_MAP = {
   Home: 'home',
   Profile: 'person',
-  Upload: 'cloud-upload'
+  Upload: 'cloud-upload',
 };
 
 const TabScreen = () => {
@@ -35,7 +35,7 @@ const TabScreen = () => {
     >
       <Tab.Screen name="Home" component={Home}></Tab.Screen>
       <Tab.Screen name="Profile" component={Profile}></Tab.Screen>
-      <Tab.Screen name='Upload' component={Upload}></Tab.Screen>
+      <Tab.Screen name="Upload" component={Upload}></Tab.Screen>
     </Tab.Navigator>
   );
 };

@@ -1,6 +1,6 @@
-import Constants from "expo-constants";
+import Constants from 'expo-constants';
 
-const { manifest } = Constants;
+const {manifest} = Constants;
 
 const dev = `http://${manifest.debuggerHost.split(':').shift()}:3000`;
 const prod = 'https://media.mw.metropolia.fi/wbma';
@@ -15,11 +15,11 @@ const routes = {
 
   tag: {
     files: (tag) => `${prod}/tags/${tag}`,
-    post: `${prod}/tags`
+    post: `${prod}/tags`,
   },
 
   media: {
-    post:  `${prod}/media`
+    post: `${prod}/media`,
   },
 
   user: {
@@ -32,6 +32,6 @@ export default {
   routes,
   URL: {
     dev,
-    prod
-  }
+    prod,
+  },
 };
