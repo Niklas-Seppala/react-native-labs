@@ -1,40 +1,32 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Text, Button} from 'react-native-elements';
 import {View} from 'react-native';
-import {useFavourites, useUser} from '../hooks/ApiHooks';
+import {useFavourites} from '../hooks/ApiHooks';
 import {MainContext} from '../contexts/MainContex';
 import colors from '../styling/colors';
 import LikerPopup from './LikerPopup';
 
 
-const MediaLikes = ({item, style}) => {
-  const {getUser} = useUser();
-  const {getFavourites, postFavourite, deleteFavourite} = useFavourites();
+const MediaLikes = ({likes, item, style, onLikePressed}) => {
+  const {postFavourite, deleteFavourite} = useFavourites();
   const {user, token} = useContext(MainContext);
-  const [itemLikes, setItemLikes] = useState([]);
-  const [liked, setLiked] = useState(null);
+  const [liked, setLiked] = useState(false);
 
   useEffect(async () => {
-    let res = await getFavourites(item.file_id);
-    if (liked === null) {
-      setLiked(Boolean(res.find((fav) => fav.user_id === user.user_id)));
-    }
-    const usersWhoLiked = res.map(
-      async (item) => await getUser(item.user_id, token)
-    );
-    setItemLikes(await Promise.all(usersWhoLiked));
-  }, [item, liked]);
+    setLiked(Boolean(likes?.find((fav) => fav.user_id === user.user_id)));
+  }, [likes]);
 
   const toggleLike = async () => {
     const op = liked ? deleteFavourite : postFavourite;
     await op.call(this, item.file_id, token);
     setLiked(!liked);
+    onLikePressed?.call(this)
   };
 
   return (
     <View style={[{flexDirection: 'row', alignItems: 'center'}, style]}>
-      <Text h4>{`${itemLikes.length} `}</Text>
-      <LikerPopup likes={itemLikes} />
+      <Text h4>{`${likes.length} `}</Text>
+      <LikerPopup likes={likes} />
       <Text h4 style={{marginRight: 10}}>
         like this post
       </Text>
