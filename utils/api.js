@@ -18,6 +18,12 @@ const routes = {
     post: `${prod}/tags`,
   },
 
+  favourite: {
+    byFileId: (fileId) => `${prod}/favourites/file/${fileId}`,
+    post: `${prod}/favourites`,
+    delete: (fileId) => `${prod}/favourites/file/${fileId}`
+  },
+
   media: {
     post: `${prod}/media`,
   },

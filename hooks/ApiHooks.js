@@ -65,6 +65,27 @@ export const useTag = () => {
   return {postTag};
 };
 
+export const useFavourites = () => {
+  const getFavourites = async (id) => {
+    return await handleFetch(api.routes.favourite.byFileId(id));
+  };
+
+  const postFavourite = async (id, token) => {
+    return await handleFetch(
+      api.routes.favourite.post,
+      options.build('POST', {file_id: id}, token)
+    );
+  };
+
+  const deleteFavourite = async (id, token) => {
+    return await handleFetch(
+      api.routes.favourite.delete(id), options.build('DELETE', null, token)
+    );
+  }
+
+  return {getFavourites, postFavourite, deleteFavourite};
+};
+
 export const useMedia = () => {
   const postMedia = async (formData, token) => {
     const options = {

@@ -1,36 +1,34 @@
 import React, {useContext, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import api from '../utils/api';
-import {Image, Card, Text} from 'react-native-elements';
-import {ActivityIndicator, StyleSheet} from 'react-native';
+import {Card, Text} from 'react-native-elements';
+import {StyleSheet} from 'react-native';
 import {useUser} from '../hooks/ApiHooks';
 import {MainContext} from '../contexts/MainContex';
+import Media from '../components/Media';
+import MediaLikes from '../components/MediaLikes';
 
 export const Single = ({route: {params}}) => {
   const {item} = params;
   const [owner, setOwner] = useState(undefined);
-  const {getUser} = useUser();
   const {token} = useContext(MainContext);
+  const {getUser} = useUser();
 
   useEffect(async () => {
     const user = await getUser(item.user_id, token);
-    setOwner(user);
+    setOwner(user.username);
   }, []);
-
-  const imgSrc = {uri: api.routes.upload(item.filename)};
 
   return (
     <Card>
       <Card.Divider style={styles.header}>
         <Text h2>{item.title}</Text>
-        <Image
-          containerStyle={styles.img}
-          source={imgSrc}
-          PlaceholderContent={<ActivityIndicator />}
-        />
+        {owner && <Text h4>{`By ${owner}`}</Text>}
       </Card.Divider>
-      {Boolean(item.description) && <Text h4>{item.description}</Text>}
-      {owner && <Text h4>{`By ${owner.username}`}</Text>}
+      <Media item={item} />
+      <Card.Divider style={{padding: 10}}>
+        <MediaLikes item={item} />
+      </Card.Divider>
+      {Boolean(item.description) && <Text>{item.description}</Text>}
     </Card>
   );
 };
@@ -40,7 +38,7 @@ Single.propTypes = {
 };
 
 const styles = StyleSheet.create({
-  img: {
+  media: {
     aspectRatio: 1,
     width: '100%',
   },
