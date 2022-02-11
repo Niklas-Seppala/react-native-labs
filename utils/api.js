@@ -21,11 +21,13 @@ const routes = {
   favourite: {
     byFileId: (fileId) => `${prod}/favourites/file/${fileId}`,
     post: `${prod}/favourites`,
-    delete: (fileId) => `${prod}/favourites/file/${fileId}`
+    delete: (fileId) => `${prod}/favourites/file/${fileId}`,
   },
 
   media: {
     post: `${prod}/media`,
+    delete: (id) => `${prod}/media/${id}`,
+    update: (id) => `${prod}/media/${id}`,
   },
 
   user: {

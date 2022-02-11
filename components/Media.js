@@ -4,7 +4,6 @@ import {Image} from 'react-native-elements';
 import {ActivityIndicator, StyleSheet} from 'react-native';
 import {Video} from 'expo-av';
 
-
 const Media = ({item}) => {
   return (
     <>
@@ -12,7 +11,7 @@ const Media = ({item}) => {
         <Image
           source={{uri: api.routes.upload(item.filename)}}
           containerStyle={styles.media}
-          PlaceholderContent={<ActivityIndicator/>}
+          PlaceholderContent={<ActivityIndicator />}
         />
       )}
       {item.media_type === 'video' && (
@@ -33,6 +32,5 @@ const styles = StyleSheet.create({
     width: '100%',
   },
 });
-
 
 export default Media;

@@ -6,7 +6,6 @@ import {MainContext} from '../contexts/MainContex';
 import colors from '../styling/colors';
 import LikerPopup from './LikerPopup';
 
-
 const MediaLikes = ({likes, item, style, onLikePressed}) => {
   const {postFavourite, deleteFavourite} = useFavourites();
   const {user, token} = useContext(MainContext);
@@ -20,7 +19,7 @@ const MediaLikes = ({likes, item, style, onLikePressed}) => {
     const op = liked ? deleteFavourite : postFavourite;
     await op.call(this, item.file_id, token);
     setLiked(!liked);
-    onLikePressed?.call(this)
+    onLikePressed?.call(this);
   };
 
   return (

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Avatar, Text, Card, Icon, Button} from 'react-native-elements';
+import {Avatar, Text} from 'react-native-elements';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import colors from '../styling/colors';
 import api from '../utils/api';

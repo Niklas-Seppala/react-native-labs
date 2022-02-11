@@ -39,7 +39,17 @@ export const Profile = ({navigation}) => {
           </View>
         </View>
       </Card.Divider>
-      <Button title="Log out" onPress={logout}></Button>
+      <View style={{flexDirection: 'row'}}>
+        <Button
+          title="Log out"
+          onPress={logout}
+          buttonStyle={{marginRight: 10}}
+        ></Button>
+        <Button
+          title="My files"
+          onPress={() => navigation.navigate('MyFiles')}
+        ></Button>
+      </View>
     </Card>
   );
 };

@@ -17,7 +17,7 @@ const DelayedActivityIndicator = ({delay = 200, size = 50}) => {
     setTimeout(() => {
       componentMounted.current && setShow(true);
     }, delay);
-    return () => componentMounted.current = false;
+    return () => (componentMounted.current = false);
   }, []);
 
   return (
@@ -31,13 +31,13 @@ const getUsersWhoLiked = async (file, token) => {
   const {getFavourites} = useFavourites();
   const {getUser, getAvatar} = useUser();
   const res = await getFavourites(file.file_id);
-  const usersWhoLiked = res.map(
-    async (item) => {
-      
-      const [usr, avatar] = await Promise.all([getUser(item.user_id, token), getAvatar(item.user_id, token)]);
-      return {...usr, avatar: avatar[0].filename};
-    }
-  );
+  const usersWhoLiked = res.map(async (item) => {
+    const [usr, avatar] = await Promise.all([
+      getUser(item.user_id, token),
+      getAvatar(item.user_id, token),
+    ]);
+    return {...usr, avatar: avatar[0].filename};
+  });
   return await Promise.all(usersWhoLiked);
 };
 
@@ -55,14 +55,12 @@ export const Single = ({route: {params}}) => {
       getUsersWhoLiked(item, token),
     ]);
 
-    console.log(likes);
     setItemLikes(likes);
     setOwner(user.username);
     setReady(true);
   }, []);
 
-  if (!ready)
-    return <DelayedActivityIndicator size={300} />
+  if (!ready) return <DelayedActivityIndicator size={300} />;
 
   return (
     <Card>

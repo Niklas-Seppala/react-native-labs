@@ -79,9 +79,10 @@ export const useFavourites = () => {
 
   const deleteFavourite = async (id, token) => {
     return await handleFetch(
-      api.routes.favourite.delete(id), options.build('DELETE', null, token)
+      api.routes.favourite.delete(id),
+      options.build('DELETE', null, token)
     );
-  }
+  };
 
   return {getFavourites, postFavourite, deleteFavourite};
 };
@@ -101,6 +102,20 @@ export const useMedia = () => {
     return result;
   };
 
+  const deleteMedia = async (id, token) => {
+    return await handleFetch(
+      api.routes.media.delete(id),
+      options.build('DELETE', null, token)
+    );
+  };
+
+  const putMedia = async (id, body, token) => {
+    return await handleFetch(
+      api.routes.media.update(id),
+      options.build('PUT', body, token)
+    );
+  };
+
   const loadMedia = async () => {
     return handleFetch(
       api.routes.tag.files(APP_TAG),
@@ -118,7 +133,7 @@ export const useMedia = () => {
 
   useEffect(async () => setMedia(await loadMedia()), [upload]);
 
-  return {media, postMedia};
+  return {media, postMedia, putMedia, deleteMedia};
 };
 
 export const useUser = () => {
